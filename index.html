@@ -1,0 +1,855 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000000000000000000000000000000000000..7045ed20c6a08b82f4115d7f678c94e223afa3c6
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,845 @@
++<!doctype html>
++<html lang="vi">
++<head>
++  <meta charset="utf-8">
++  <meta name="viewport" content="width=device-width, initial-scale=1">
++  <title>Tư vấn setup quán cà phê</title>
++  <meta name="description" content="Tư vấn setup quán cà phê: mô hình, menu, cost, trang thiết bị tối thiểu, đào tạo key person và hỗ trợ khai trương.">
++  <style>
++    :root {
++      --coffee-950: #1f140f;
++      --coffee-850: #2f2119;
++      --coffee-700: #5a3827;
++      --coffee-500: #8a5a3c;
++      --cream-100: #fff8ed;
++      --cream-200: #f4e7d5;
++      --cream-300: #ead6bd;
++      --warm-white: #fffdf8;
++      --ink: #221b17;
++      --muted: #725f52;
++      --line: rgba(90, 56, 39, 0.16);
++      --shadow: 0 24px 70px rgba(31, 20, 15, 0.12);
++      --radius-lg: 28px;
++      --radius-md: 18px;
++      --radius-sm: 12px;
++      --container: 1120px;
++    }
++
++    * {
++      box-sizing: border-box;
++    }
++
++    html {
++      scroll-behavior: smooth;
++    }
++
++    body {
++      margin: 0;
++      color: var(--ink);
++      background:
++        radial-gradient(circle at top left, rgba(138, 90, 60, 0.16), transparent 32rem),
++        linear-gradient(180deg, var(--cream-100), #f7eddf 48%, var(--warm-white));
++      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
++      line-height: 1.65;
++    }
++
++    img {
++      display: block;
++      max-width: 100%;
++    }
++
++    a {
++      color: inherit;
++      text-decoration: none;
++    }
++
++    .container {
++      width: min(var(--container), calc(100% - 40px));
++      margin: 0 auto;
++    }
++
++    .site-header {
++      position: sticky;
++      top: 0;
++      z-index: 20;
++      border-bottom: 1px solid rgba(90, 56, 39, 0.12);
++      background: rgba(255, 248, 237, 0.9);
++      backdrop-filter: blur(16px);
++    }
++
++    .nav {
++      display: flex;
++      align-items: center;
++      justify-content: space-between;
++      gap: 24px;
++      min-height: 74px;
++    }
++
++    .brand {
++      color: var(--coffee-950);
++      font-size: 1rem;
++      font-weight: 800;
++      letter-spacing: -0.02em;
++      white-space: nowrap;
++    }
++
++    .nav-links {
++      display: flex;
++      align-items: center;
++      justify-content: flex-end;
++      gap: 6px;
++      margin: 0;
++      padding: 0;
++      list-style: none;
++      font-size: 0.92rem;
++      font-weight: 650;
++      color: var(--coffee-700);
++    }
++
++    .nav-links a {
++      display: inline-flex;
++      padding: 10px 12px;
++      border-radius: 999px;
++      transition: background 180ms ease, color 180ms ease;
++    }
++
++    .nav-links a:hover {
++      color: var(--coffee-950);
++      background: rgba(138, 90, 60, 0.1);
++    }
++
++    main {
++      overflow: hidden;
++    }
++
++    section {
++      padding: 84px 0;
++      scroll-margin-top: 94px;
++    }
++
++    .hero {
++      padding: 74px 0 90px;
++    }
++
++    .hero-grid,
++    .split-grid {
++      display: grid;
++      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
++      gap: 46px;
++      align-items: center;
++    }
++
++    .eyebrow {
++      display: inline-flex;
++      align-items: center;
++      width: fit-content;
++      margin-bottom: 16px;
++      padding: 8px 13px;
++      border: 1px solid var(--line);
++      border-radius: 999px;
++      color: var(--coffee-700);
++      background: rgba(255, 253, 248, 0.72);
++      font-size: 0.82rem;
++      font-weight: 750;
++      letter-spacing: 0.02em;
++      text-transform: uppercase;
++    }
++
++    h1,
++    h2,
++    h3 {
++      margin: 0;
++      color: var(--coffee-950);
++      line-height: 1.12;
++      letter-spacing: -0.045em;
++    }
++
++    h1 {
++      max-width: 720px;
++      font-size: clamp(2.7rem, 7vw, 5.8rem);
++    }
++
++    h2 {
++      font-size: clamp(2rem, 4vw, 3.35rem);
++    }
++
++    h3 {
++      font-size: 1.18rem;
++      letter-spacing: -0.025em;
++    }
++
++    .lead {
++      max-width: 720px;
++      margin: 22px 0 0;
++      color: var(--coffee-850);
++      font-size: clamp(1.08rem, 2vw, 1.34rem);
++      font-weight: 650;
++      line-height: 1.55;
++    }
++
++    .sublead,
++    .section-intro,
++    .card p,
++    .faq-item p,
++    .note {
++      color: var(--muted);
++    }
++
++    .sublead {
++      max-width: 720px;
++      margin: 16px 0 0;
++      font-size: 1.02rem;
++    }
++
++    .tag-list,
++    .pill-list,
++    .mini-list {
++      display: flex;
++      flex-wrap: wrap;
++      gap: 10px;
++      margin: 26px 0 0;
++      padding: 0;
++      list-style: none;
++    }
++
++    .tag-list li,
++    .pill-list li {
++      border: 1px solid var(--line);
++      border-radius: 999px;
++      background: rgba(255, 253, 248, 0.78);
++      color: var(--coffee-700);
++      font-size: 0.92rem;
++      font-weight: 700;
++    }
++
++    .tag-list li {
++      padding: 9px 14px;
++    }
++
++    .cta-row {
++      display: flex;
++      flex-wrap: wrap;
++      gap: 12px;
++      margin-top: 30px;
++    }
++
++    .btn {
++      display: inline-flex;
++      align-items: center;
++      justify-content: center;
++      min-height: 50px;
++      padding: 13px 20px;
++      border: 1px solid transparent;
++      border-radius: 999px;
++      font-weight: 800;
++      line-height: 1.2;
++      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
++    }
++
++    .btn:hover {
++      transform: translateY(-2px);
++    }
++
++    .btn-primary {
++      color: var(--warm-white);
++      background: var(--coffee-700);
++      box-shadow: 0 14px 34px rgba(90, 56, 39, 0.22);
++    }
++
++    .btn-secondary {
++      color: var(--coffee-700);
++      border-color: var(--line);
++      background: rgba(255, 253, 248, 0.82);
++    }
++
++    .btn-dark {
++      color: var(--warm-white);
++      background: var(--coffee-950);
++    }
++
++    .note {
++      max-width: 760px;
++      margin: 18px 0 0;
++      font-size: 0.93rem;
++    }
++
++    .media-card {
++      position: relative;
++      overflow: hidden;
++      border: 1px solid rgba(90, 56, 39, 0.14);
++      border-radius: var(--radius-lg);
++      background: var(--cream-200);
++      box-shadow: var(--shadow);
++    }
++
++    .media-card::after {
++      position: absolute;
++      inset: 0;
++      content: "";
++      background: linear-gradient(180deg, transparent 48%, rgba(31, 20, 15, 0.18));
++      pointer-events: none;
++    }
++
++    .media-card img {
++      width: 100%;
++      height: 100%;
++      min-height: 420px;
++      object-fit: cover;
++    }
++
++    .section-head {
++      max-width: 770px;
++      margin-bottom: 34px;
++    }
++
++    .section-intro {
++      margin: 16px 0 0;
++      font-size: 1.04rem;
++    }
++
++    .split-grid {
++      grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1fr);
++    }
++
++    .split-grid.reverse {
++      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
++    }
++
++    .split-grid.reverse .media-card {
++      order: 2;
++    }
++
++    .cards-grid {
++      display: grid;
++      grid-template-columns: repeat(2, minmax(0, 1fr));
++      gap: 16px;
++    }
++
++    .card,
++    .faq-item,
++    .package-card,
++    .panel {
++      border: 1px solid var(--line);
++      border-radius: var(--radius-md);
++      background: rgba(255, 253, 248, 0.78);
++      box-shadow: 0 16px 46px rgba(31, 20, 15, 0.06);
++    }
++
++    .card {
++      padding: 22px;
++    }
++
++    .card-number {
++      display: inline-flex;
++      align-items: center;
++      justify-content: center;
++      width: 34px;
++      height: 34px;
++      margin-bottom: 14px;
++      border-radius: 50%;
++      color: var(--warm-white);
++      background: var(--coffee-700);
++      font-size: 0.86rem;
++      font-weight: 850;
++    }
++
++    .card p,
++    .package-card p,
++    .faq-item p {
++      margin: 10px 0 0;
++    }
++
++    .panel {
++      padding: 32px;
++    }
++
++    .pill-list li {
++      padding: 10px 15px;
++    }
++
++    .check-list {
++      display: grid;
++      gap: 12px;
++      margin: 24px 0 0;
++      padding: 0;
++      list-style: none;
++    }
++
++    .check-list li {
++      position: relative;
++      padding-left: 30px;
++      color: var(--coffee-850);
++      font-weight: 700;
++    }
++
++    .check-list li::before {
++      position: absolute;
++      left: 0;
++      top: 0.2em;
++      width: 18px;
++      height: 18px;
++      border-radius: 50%;
++      background: var(--coffee-500);
++      box-shadow: inset 0 0 0 5px var(--cream-200);
++      content: "";
++    }
++
++    .steps {
++      counter-reset: step;
++      display: grid;
++      gap: 14px;
++      margin-top: 28px;
++    }
++
++    .step {
++      counter-increment: step;
++      position: relative;
++      padding: 22px 22px 22px 72px;
++    }
++
++    .step::before {
++      position: absolute;
++      left: 22px;
++      top: 22px;
++      display: grid;
++      place-items: center;
++      width: 36px;
++      height: 36px;
++      border-radius: 50%;
++      color: var(--warm-white);
++      background: var(--coffee-700);
++      content: counter(step);
++      font-weight: 850;
++    }
++
++    .packages-grid {
++      display: grid;
++      grid-template-columns: repeat(4, minmax(0, 1fr));
++      gap: 16px;
++    }
++
++    .package-card {
++      position: relative;
++      padding: 26px;
++    }
++
++    .package-card.featured {
++      border: 2px solid var(--coffee-500);
++      background: linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(244, 231, 213, 0.72));
++    }
++
++    .badge {
++      display: inline-flex;
++      margin-bottom: 14px;
++      padding: 6px 10px;
++      border-radius: 999px;
++      color: var(--warm-white);
++      background: var(--coffee-700);
++      font-size: 0.78rem;
++      font-weight: 850;
++      text-transform: uppercase;
++      letter-spacing: 0.04em;
++    }
++
++    .mini-list {
++      display: grid;
++      gap: 9px;
++      margin-top: 18px;
++    }
++
++    .mini-list li {
++      padding-bottom: 9px;
++      border-bottom: 1px solid rgba(90, 56, 39, 0.1);
++      color: var(--coffee-850);
++      font-size: 0.95rem;
++      font-weight: 700;
++    }
++
++    .mini-list li:last-child {
++      border-bottom: 0;
++      padding-bottom: 0;
++    }
++
++    .faq-grid {
++      display: grid;
++      grid-template-columns: repeat(2, minmax(0, 1fr));
++      gap: 16px;
++    }
++
++    .faq-item {
++      padding: 24px;
++    }
++
++    .final-cta {
++      color: var(--warm-white);
++      background:
++        radial-gradient(circle at top right, rgba(234, 214, 189, 0.22), transparent 28rem),
++        linear-gradient(135deg, var(--coffee-950), var(--coffee-700));
++    }
++
++    .final-cta h2,
++    .final-cta .section-intro,
++    .final-cta .note {
++      color: var(--warm-white);
++    }
++
++    .final-cta .section-intro,
++    .final-cta .note {
++      opacity: 0.86;
++    }
++
++    .final-cta .btn-secondary {
++      color: var(--warm-white);
++      border-color: rgba(255, 253, 248, 0.32);
++      background: rgba(255, 253, 248, 0.12);
++    }
++
++    .site-footer {
++      padding: 30px 0;
++      color: var(--cream-200);
++      background: var(--coffee-950);
++      text-align: center;
++      font-size: 0.95rem;
++    }
++
++    @media (max-width: 980px) {
++      .nav {
++        align-items: flex-start;
++        flex-direction: column;
++        gap: 10px;
++        padding: 16px 0;
++      }
++
++      .nav-links {
++        justify-content: flex-start;
++        width: 100%;
++        overflow-x: auto;
++        padding-bottom: 2px;
++        white-space: nowrap;
++      }
++
++      .hero-grid,
++      .split-grid,
++      .split-grid.reverse {
++        grid-template-columns: 1fr;
++      }
++
++      .split-grid.reverse .media-card {
++        order: initial;
++      }
++
++      .media-card img {
++        min-height: 320px;
++      }
++
++      .packages-grid {
++        grid-template-columns: repeat(2, minmax(0, 1fr));
++      }
++    }
++
++    @media (max-width: 700px) {
++      .container {
++        width: min(100% - 28px, var(--container));
++      }
++
++      section {
++        padding: 62px 0;
++      }
++
++      .hero {
++        padding: 48px 0 66px;
++      }
++
++      .cards-grid,
++      .faq-grid,
++      .packages-grid {
++        grid-template-columns: 1fr;
++      }
++
++      .panel,
++      .card,
++      .faq-item,
++      .package-card {
++        padding: 22px;
++      }
++
++      .step {
++        padding-left: 62px;
++      }
++
++      .step::before {
++        left: 18px;
++      }
++
++      .cta-row .btn {
++        width: 100%;
++      }
++    }
++  </style>
++</head>
++<body>
++  <header class="site-header">
++    <nav class="nav container" aria-label="Điều hướng chính">
++      <a class="brand" href="#top">Tư vấn setup quán cà phê</a>
++      <ul class="nav-links">
++        <li><a href="#dich-vu">Dịch vụ</a></li>
++        <li><a href="#phu-hop">Phù hợp với ai</a></li>
++        <li><a href="#quy-trinh">Quy trình</a></li>
++        <li><a href="#goi-tu-van">Gói tư vấn</a></li>
++        <li><a href="#lien-he">Liên hệ</a></li>
++      </ul>
++    </nav>
++  </header>
++
++  <main id="top">
++    <section class="hero">
++      <div class="container hero-grid">
++        <div>
++          <span class="eyebrow">Mô hình • Menu • Cost</span>
++          <h1>Tư vấn setup quán cà phê</h1>
++          <p class="lead">Dành cho chủ đầu tư đang chuẩn bị mở quán, đã có mặt bằng hoặc cần định hướng rõ trước khi đầu tư thiết bị.</p>
++          <p class="sublead">Hỗ trợ chủ đầu tư định hướng mô hình, xây dựng menu nền tảng, tính cost, tư vấn trang thiết bị tối thiểu, đào tạo key person và chuẩn bị khai trương giai đoạn đầu.</p>
++          <ul class="tag-list" aria-label="Nội dung tư vấn chính">
++            <li>Mô hình</li>
++            <li>Menu</li>
++            <li>Cost</li>
++            <li>Trang thiết bị</li>
++            <li>Đào tạo</li>
++            <li>Khai trương</li>
++          </ul>
++          <div class="cta-row">
++            <a class="btn btn-primary" href="https://zalo.me/SODIENTHOAI">Nhắn Zalo tư vấn</a>
++            <a class="btn btn-secondary" href="LINK_GOOGLE_FORM">Điền form tư vấn</a>
++          </div>
++          <p class="note">Không hiển thị chi phí tư vấn cố định trên website. Mức phí sẽ được đề xuất sau khi nắm rõ mô hình, vốn đầu tư, mặt bằng và thời gian khai trương.</p>
++        </div>
++        <figure class="media-card" aria-label="Không gian quán cà phê đang được chuẩn bị setup">
++          <img src="images/01-cover-tu-van-setup-quan-ca-phe.jpg" alt="Không gian quán cà phê với quầy pha chế và bàn ghế ấm cúng">
++        </figure>
++      </div>
++    </section>
++
++    <section id="dich-vu">
++      <div class="container split-grid">
++        <figure class="media-card" aria-label="Các hạng mục tư vấn setup quán cà phê">
++          <img src="images/02-dich-vu-tu-van-bao-gom.jpg" alt="Sổ tay kế hoạch, cà phê và dụng cụ chuẩn bị cho tư vấn setup quán">
++        </figure>
++        <div>
++          <div class="section-head">
++            <span class="eyebrow">Dịch vụ</span>
++            <h2>Dịch vụ tư vấn bao gồm</h2>
++            <p class="section-intro">Tập trung vào các phần chủ đầu tư cần làm rõ trước khi xuống tiền: mô hình, menu, cost, thiết bị, người vận hành và kế hoạch khai trương.</p>
++          </div>
++          <div class="cards-grid">
++            <article class="card">
++              <span class="card-number">1</span>
++              <h3>Định hướng mô hình quán</h3>
++              <p>Xác định mô hình phù hợp với vốn, mặt bằng, khu vực và nhóm khách hàng mục tiêu.</p>
++            </article>
++            <article class="card">
++              <span class="card-number">2</span>
++              <h3>Xây dựng menu nền tảng</h3>
++              <p>Lên bộ menu ban đầu để mở bán, tránh menu quá rộng và khó kiểm soát trong giai đoạn đầu.</p>
++            </article>
++            <article class="card">
++              <span class="card-number">3</span>
++              <h3>Công thức định lượng</h3>
++              <p>Chuẩn hóa công thức để key person và nhân sự có thể làm món ổn định hơn.</p>
++            </article>
++            <article class="card">
++              <span class="card-number">4</span>
++              <h3>Tính cost và giá bán</h3>
++              <p>Tính chi phí nguyên liệu từng món, biên lợi nhuận và mức giá bán đề xuất.</p>
++            </article>
++            <article class="card">
++              <span class="card-number">5</span>
++              <h3>Tư vấn trang thiết bị tối thiểu</h3>
++              <p>Gợi ý danh sách thiết bị cần chuẩn bị theo mô hình và công suất bán dự kiến.</p>
++            </article>
++            <article class="card">
++              <span class="card-number">6</span>
++              <h3>Đào tạo key person &amp; hỗ trợ khai trương</h3>
++              <p>Đào tạo tối đa 3 người phụ trách chính và hỗ trợ vận hành trong giai đoạn khai trương.</p>
++            </article>
++          </div>
++        </div>
++      </div>
++    </section>
++
++    <section id="thiet-bi">
++      <div class="container split-grid reverse">
++        <figure class="media-card" aria-label="Trang thiết bị tối thiểu cho quán cà phê mới">
++          <img src="images/03-trang-thiet-bi-toi-thieu.jpg" alt="Thiết bị và dụng cụ pha chế được sắp xếp gọn gàng trên quầy">
++        </figure>
++        <div class="panel">
++          <span class="eyebrow">Thiết bị</span>
++          <h2>Trang thiết bị tối thiểu cho quán mới</h2>
++          <p class="section-intro">Không phải quán mới nào cũng cần mua nhiều thiết bị ngay từ đầu. Quan trọng là chọn đúng theo mô hình, menu và nhu cầu vận hành thật.</p>
++          <ul class="pill-list">
++            <li>Hệ quầy tiện dụng</li>
++            <li>Máy móc phù hợp</li>
++            <li>Dụng cụ cần thiết</li>
++            <li>Dụng cụ vệ sinh</li>
++          </ul>
++          <p class="note">Mục tiêu là giúp chủ đầu tư hạn chế mua dư, mua thiếu hoặc mua thiết bị không phù hợp với mô hình quán.</p>
++        </div>
++      </div>
++    </section>
++
++    <section id="phu-hop">
++      <div class="container split-grid">
++        <figure class="media-card" aria-label="Đối tượng phù hợp với dịch vụ tư vấn setup quán cà phê">
++          <img src="images/05-dich-vu-phu-hop-voi-ai.jpg" alt="Chủ đầu tư trao đổi kế hoạch mở quán cà phê cùng người tư vấn">
++        </figure>
++        <div class="panel">
++          <span class="eyebrow">Phù hợp với ai</span>
++          <h2>Dịch vụ phù hợp với ai?</h2>
++          <p class="section-intro">Phù hợp với chủ đầu tư cần một lộ trình rõ ràng trước khi triển khai, đặc biệt là người mới hoặc quán đang chuẩn bị khai trương.</p>
++          <ul class="check-list">
++            <li>Người mới chuẩn bị mở quán cà phê</li>
++            <li>Chủ đầu tư đã có mặt bằng nhưng chưa có menu</li>
++            <li>Quán take-away, kiosk, quán nhỏ</li>
++            <li>Quán tỉnh hoặc khu vực địa phương</li>
++            <li>Chủ đầu tư cần định hướng trước khi mua thiết bị</li>
++            <li>Người muốn có menu và quy trình rõ trước ngày khai trương</li>
++          </ul>
++        </div>
++      </div>
++    </section>
++
++    <section id="quy-trinh">
++      <div class="container split-grid reverse">
++        <figure class="media-card" aria-label="Quy trình tư vấn setup quán cà phê">
++          <img src="images/04-quy-trinh-tu-van.jpg" alt="Bản kế hoạch quy trình tư vấn setup quán cà phê trên bàn làm việc">
++        </figure>
++        <div>
++          <div class="section-head">
++            <span class="eyebrow">Quy trình</span>
++            <h2>Quy trình tư vấn</h2>
++            <p class="section-intro">Quy trình được thiết kế để chủ đầu tư hiểu rõ từng bước cần chuẩn bị, hạn chế quyết định theo cảm tính.</p>
++          </div>
++          <div class="steps">
++            <article class="card step">
++              <h3>Bước 1: Tiếp nhận thông tin</h3>
++              <p>Khu vực, vốn dự kiến, mặt bằng, mô hình mong muốn và thời gian khai trương.</p>
++            </article>
++            <article class="card step">
++              <h3>Bước 2: Phân tích mô hình</h3>
++              <p>Đánh giá mô hình phù hợp với vốn, vị trí, nhóm khách và khả năng vận hành.</p>
++            </article>
++            <article class="card step">
++              <h3>Bước 3: Xây dựng menu &amp; cost</h3>
++              <p>Đề xuất menu nền tảng, công thức định lượng, cost và giá bán.</p>
++            </article>
++            <article class="card step">
++              <h3>Bước 4: Tư vấn trang thiết bị tối thiểu</h3>
++              <p>Lập danh sách thiết bị cần chuẩn bị theo nhu cầu thật của quán.</p>
++            </article>
++            <article class="card step">
++              <h3>Bước 5: Đào tạo key person &amp; hỗ trợ khai trương</h3>
++              <p>Đào tạo người phụ trách chính và hỗ trợ vận hành trong giai đoạn khai trương.</p>
++            </article>
++          </div>
++        </div>
++      </div>
++    </section>
++
++    <section id="goi-tu-van">
++      <div class="container">
++        <div class="section-head">
++          <span class="eyebrow">Gói tư vấn</span>
++          <h2>Các gói tư vấn</h2>
++          <p class="section-intro">Không báo một mức phí chung cho mọi quán. Mỗi gói sẽ được đề xuất sau khi nắm rõ vốn đầu tư, mặt bằng, mô hình và mức độ cần đồng hành.</p>
++        </div>
++        <div class="packages-grid">
++          <article class="package-card">
++            <h3>Gói 1: Khởi đầu</h3>
++            <p>Phù hợp với người mới cần định hướng mô hình, menu nền và danh sách chuẩn bị cơ bản.</p>
++            <ul class="mini-list">
++              <li>Định hướng mô hình</li>
++              <li>Menu nền tảng</li>
++              <li>Checklist chuẩn bị</li>
++            </ul>
++          </article>
++          <article class="package-card">
++            <h3>Gói 2: Triển khai</h3>
++            <p>Phù hợp với chủ đầu tư đã có mặt bằng, cần chuẩn bị menu, thiết bị và training ban đầu.</p>
++            <ul class="mini-list">
++              <li>Menu &amp; cost</li>
++              <li>Trang thiết bị tối thiểu</li>
++              <li>Đào tạo key person</li>
++            </ul>
++          </article>
++          <article class="package-card featured">
++            <span class="badge">Đề xuất</span>
++            <h3>Gói 3: Vận hành</h3>
++            <p>Phù hợp với quán sắp khai trương, cần chuẩn hóa menu, đào tạo key person và chạy thử vận hành.</p>
++            <ul class="mini-list">
++              <li>Chuẩn hóa công thức</li>
++              <li>Checklist vận hành</li>
++              <li>Hỗ trợ khai trương</li>
++            </ul>
++          </article>
++          <article class="package-card">
++            <h3>Gói 4: Đồng hành</h3>
++            <p>Phù hợp với dự án quy mô lớn hơn, cần đồng hành sâu từ giai đoạn chuẩn bị đến khai trương.</p>
++            <ul class="mini-list">
++              <li>Đồng hành theo dự án</li>
++              <li>Đào tạo &amp; vận hành</li>
++              <li>Hỗ trợ triển khai sâu hơn</li>
++            </ul>
++          </article>
++        </div>
++        <p class="note">Phí tư vấn không bao gồm chi phí máy móc, thiết bị, nguyên liệu, mặt bằng, thi công hoặc thiết kế nội thất.</p>
++      </div>
++    </section>
++
++    <section id="faq">
++      <div class="container">
++        <div class="section-head">
++          <span class="eyebrow">FAQ</span>
++          <h2>Câu hỏi thường gặp</h2>
++        </div>
++        <div class="faq-grid">
++          <article class="faq-item">
++            <h3>Dịch vụ có bao gồm máy móc, thiết bị không?</h3>
++            <p>Không. Phí tư vấn không bao gồm chi phí mua máy móc, thiết bị, nguyên liệu, mặt bằng hoặc thi công.</p>
++          </article>
++          <article class="faq-item">
++            <h3>Có phù hợp với người mới chưa có kinh nghiệm không?</h3>
++            <p>Có. Dịch vụ phù hợp với chủ đầu tư cần một lộ trình rõ trước khi mở quán.</p>
++          </article>
++          <article class="faq-item">
++            <h3>Có báo giá trực tiếp trên website không?</h3>
++            <p>Không. Chi phí tư vấn sẽ được đề xuất sau khi nắm rõ mô hình, vốn, mặt bằng và nhu cầu thực tế.</p>
++          </article>
++          <article class="faq-item">
++            <h3>Có bắt buộc mua thiết bị từ bên tư vấn không?</h3>
++            <p>Không. Mục tiêu là giúp chủ đầu tư chọn đúng thiết bị theo nhu cầu thật, không ép mua thiết bị.</p>
++          </article>
++        </div>
++      </div>
++    </section>
++
++    <section id="lien-he" class="final-cta">
++      <div class="container">
++        <div class="section-head">
++          <span class="eyebrow">Liên hệ</span>
++          <h2>Đang chuẩn bị mở quán cà phê?</h2>
++          <p class="section-intro">Gửi thông tin về khu vực, vốn dự kiến, mặt bằng và thời gian khai trương để được tư vấn hướng setup phù hợp.</p>
++        </div>
++        <div class="cta-row">
++          <a class="btn btn-dark" href="https://m.me/sparkscornerd7">Nhắn Messenger tư vấn</a>
++          <a class="btn btn-primary" href="https://zalo.me/SODIENTHOAI">Nhắn Zalo tư vấn</a>
++          <a class="btn btn-secondary" href="LINK_GOOGLE_FORM">Điền form tư vấn</a>
++        </div>
++        <p class="note">Không đưa ra bảo đảm về doanh thu. Không bao gồm chi phí thiết bị, nguyên liệu, mặt bằng hoặc thi công.</p>
++      </div>
++    </section>
++  </main>
++
++  <footer class="site-footer">
++    <div class="container">Tư vấn setup quán cà phê | Mô hình • Menu • Cost • Trang thiết bị • Đào tạo • Khai trương</div>
++  </footer>
++</body>
++</html>
+ 
+EOF
+)
