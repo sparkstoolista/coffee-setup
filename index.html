@@ -106,11 +106,11 @@
     }
 
     .hero-grid {
-      display: grid;
-      grid-template-columns: 1.02fr 0.98fr;
-      gap: 42px;
-      align-items: center;
-    }
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 520px);
+  gap: 42px;
+  align-items: center;
+}
 
     .eyebrow {
       display: inline-flex;
@@ -218,19 +218,23 @@
     }
 
     .hero-image {
-      background: var(--cream-soft);
-      border-radius: 32px;
-      padding: 14px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.52);
-    }
+  background: var(--cream-soft);
+  border-radius: 32px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  width: 100%;
+  max-width: 540px;
+  justify-self: end;
+}
 
     .hero-image img {
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 24px;
-      background: #d9c4aa;
-    }
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 24px;
+  background: #d9c4aa;
+  max-height: 520px;
+}
 
     .note-box {
       margin-top: 18px;
